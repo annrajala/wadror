@@ -2,4 +2,4 @@
 
 Heroku app: 
 
-https://cryptic-inlet-4509.herokuapp.com/breweries
+https://cryptic-inlet-4509.herokuapp.com/
