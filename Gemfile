@@ -41,6 +41,8 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'bcrypt-ruby', '~> 3.1.2'
+
 group :development, :test do
   gem 'sqlite3'
   gem 'byebug'

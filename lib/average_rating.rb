@@ -1,7 +1,0 @@
-module AverageRating
-
-  def average_rating
-    self.ratings.average(:score).round(2).to_s
-  end
-
-end
