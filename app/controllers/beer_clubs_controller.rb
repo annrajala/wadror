@@ -1,5 +1,6 @@
 class BeerClubsController < ApplicationController
   before_action :set_beer_club, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_that_signed_in, except: [:index, :show, :list]
 
   # GET /beer_clubs
   # GET /beer_clubs.json
@@ -15,6 +16,10 @@ class BeerClubsController < ApplicationController
   # GET /beer_clubs/new
   def new
     @beer_club = BeerClub.new
+  end
+
+  def list
+
   end
 
   # GET /beer_clubs/1/edit
