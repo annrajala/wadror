@@ -24,5 +24,4 @@ describe "New Beer page" do
     expect(page).to have_content "Name can't be blank"
     expect(Beer.count).to eq(0)
   end
-
 end
