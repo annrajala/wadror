@@ -9,4 +9,8 @@ script:
  - bundle exec rake db:test:prepare
  - bundle exec rspec -fd spec/
 
-
+deploy:
+  provider: heroku
+  api_key: a5ecc058-f8fe-4265-a2e0-965e5a2b0b87
+  app: cryptic-inlet-4509
+  run: "rake db:migrate"
