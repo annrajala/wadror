@@ -1,12 +1,15 @@
 language: ruby
-
 rvm:
- - 2.0.0
-
+- 2.0.0
 script:
- - bundle exec rake db:migrate --trace
- - RAILS_ENV=test bundle exec rake db:migrate --trace
- - bundle exec rake db:test:prepare
- - bundle exec rspec -fd spec/
-
-
+- bundle exec rake db:migrate --trace
+- RAILS_ENV=test bundle exec rake db:migrate --trace
+- bundle exec rake db:test:prepare
+- bundle exec rspec -fd spec/
+deploy:
+  provider: heroku
+  api_key:
+    secure: FgOHZUhES2YAX3owVt5xxPnLt+8QjNktFhYWDESoOTiAGc9atsX58VLjEUbv651KyPFOylmaqj9yUwdMj0udNV2LKBD3P8qTRhWYoh/EpNkv3DNE1CCJzb/hXSZcq3budm1o8RtsCByNMJbWaaa9AE+CJ4X8MI0Q4XtLjvjazvo=
+  app: cryptic-inlet-4509
+  on:
+    repo: annrajala/wadror
