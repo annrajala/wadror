@@ -33,7 +33,7 @@ class MembershipsController < ApplicationController
     end
     respond_to do |format|
       if not already_member and @membership.save
-        format.html { redirect_to club_to_join, notice: "Membership was successfully created." }
+        format.html { redirect_to club_to_join, notice: current_user.username + ", welcome to the club!" }
       else
         @beer_clubs = BeerClub.all
         format.html { render action: 'new' }
@@ -61,7 +61,7 @@ class MembershipsController < ApplicationController
   def destroy
     @membership.destroy
     respond_to do |format|
-      format.html { redirect_to memberships_url }
+      format.html { redirect_to current_user, notice: 'Membership in ' + @membership.beer_club.name +  ' BeerClub has ended.' }
       format.json { head :no_content }
     end
   end

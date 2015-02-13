@@ -1,27 +1,28 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @beer.name %>
-</p>
+<h2> <%= @beer %> </h2>
 
 <p>
   <strong>Style:</strong>
   <%= @beer.style %>
 </p>
 
-<p>
-  <strong>Brewery:</strong>
-  <%= @beer.brewery_id %>
-</p>
-
-<p>
-  <% if @beer.ratings.empty? %>
-    Beer has not yet been rated!
+<% if @beer.ratings.empty? %>
+    <p>Beer has not yet been rated!</p>
 <% else %>
-    Beer has <%= pluralize(@beer.ratings.count, 'rating') %>. Average: <%= @beer.average_rating %>
+    <p>has been rated <%= @beer.ratings.count %> times, average score <%= @beer.average_rating %></p>
 <% end %>
-</p>
 
-<%= link_to 'Edit', edit_beer_path(@beer) if current_user %>
-<%= link_to 'Destroy the beer', @beer, method: :delete, data: { confirm: 'Are you sure?' } if current_user %>
+<% if current_user %>
+
+    <h4>Give a rating:</h4>
+
+    <%= form_for(@rating) do |f| %>
+        <%= f.hidden_field :beer_id %>
+        Score: <%= f.number_field :score %>
+        <%= f.submit %>
+    <% end %>
+
+    <%= link_to 'Edit', edit_beer_path(@beer) %>
+
+<% end %>

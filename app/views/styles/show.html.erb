@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+
+<h2>
+  <%= @style.name %>
+</h2>
+
+<p>
+  <strong>Description:</strong>
+  <%= @style.description %>
+</p>
+
+<%= link_to 'Edit', edit_style_path(@style) if current_user %> |
+<%= link_to 'Back', styles_path %>
