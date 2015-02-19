@@ -9,7 +9,11 @@ class Brewery < ActiveRecord::Base
                                   only_integer: true}
   validate :year_cant_be_in_the_future
 
+  scope :active, -> { where active:true }
+  scope :retired, -> { where active:[nil,false] }
+
   include RatingAverage
+  extend Top
 
   def year_cant_be_in_the_future
     if not year.nil? and year > Date.today.year

@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   include RatingAverage
+  extend Top
 
   has_secure_password
 
@@ -12,6 +13,10 @@ class User < ActiveRecord::Base
   has_many :beers, through: :ratings
   has_many :memberships, dependent: :destroy
   has_many :beer_clubs, through: :memberships
+
+  def self.active_raters
+    User.all.sort_by{|user| -user.ratings.count}
+  end
 
   def password_must_contain_digit_and_caps
     contains_digit = !password.match(/[\d{1,}]+/).nil? if not password.nil?
@@ -26,16 +31,12 @@ class User < ActiveRecord::Base
     ratings.order(score: :desc).limit(1).first.beer
   end
 
-  def favorite_style
-    return nil if ratings.empty?
-    group_by_style = ratings.group_by { |r| r.beer.style }
-    (average_ratings(group_by_style)).max_by{ |style, average| average }[0]
+  def favorite_brewery
+    favorite :brewery
   end
 
-  def favorite_brewery
-    return nil if ratings.empty?
-    group_by_brewery = ratings.group_by { |r| r.beer.brewery }
-    (average_ratings(group_by_brewery)).max_by { |brewery, average| average }[0]
+  def favorite_style
+    favorite :style
   end
 
   def average_ratings(hash)
@@ -44,6 +45,29 @@ class User < ActiveRecord::Base
       hash[key] = sum / hash[key].count
     end
     return hash
+  end
+
+  def rated(category)
+    ratings.map{ |r| r.beer.send(category) }.uniq
+  end
+
+  def rating_of(category, item)
+    ratings_of_item = ratings.select do |r|
+      r.beer.send(category) == item
+    end
+    ratings_of_item.map(&:score).sum / ratings_of_item.count
+  end
+
+  def favorite(category)
+    return nil if ratings.empty?
+
+    category_ratings = rated(category).inject([]) do |set, item|
+      set << {
+          item: item,
+          rating: rating_of(category, item) }
+    end
+
+    category_ratings.sort_by { |item| item[:rating] }.last[:item]
   end
 end
 

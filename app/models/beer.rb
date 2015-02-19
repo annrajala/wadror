@@ -8,6 +8,7 @@ class Beer < ActiveRecord::Base
   has_many :raters, -> { uniq }, through: :ratings, source: :user
 
   include RatingAverage
+  extend Top
 
   def to_s
     self.name + " (" + self.brewery.name + ")"
