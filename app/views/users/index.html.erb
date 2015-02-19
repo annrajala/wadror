@@ -13,7 +13,7 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= link_to user.username, user %></td>
-        <% if not user.active and current_user.admin %>
+        <% if not user.active and current_user and current_user.admin %>
             <td><span class="label label-info">account frozen</span></td>
         <% end %>
       </tr>

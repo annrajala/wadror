@@ -48,7 +48,7 @@
     <%= edit_and_destroy_buttons(@user) %>
 <% end %>
 <br><br>
-<% if current_user.admin %>
+<% if current_user and current_user.admin and current_user != @user %>
     <% if @user.active %>
         <%= link_to "Freeze account", toggle_activity_user_path(@user.id), method: :post, class: "btn btn-danger" %>
     <%else%>
