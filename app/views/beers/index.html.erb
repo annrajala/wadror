@@ -1,28 +1,31 @@
 <h1>Beers</h1>
-
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Style</th>
-      <th>Brewery</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @beers.each do |beer| %>
-    <% byebug if beer.brewery.nil? %>
+<p id="notice"><%= notice %></p>
+<% cache "beerlist-#{@order}", skip_digest: true do %>
+    <table class="table table-hover">
+      <thead>
       <tr>
-        <td><%= link_to beer.name, beer %></td>
-        <td><%= link_to beer.style, beer.style %></td>
-        <td><%= link_to beer.brewery.name, beer.brewery %></td>
+        <th><%= link_to('Name', beers_path(order:"name"), class:'btn btn-default') %></th>
+        <th><%= link_to('Style', beers_path(order:"style"), class:'btn btn-default') %></th>
+        <th><%= link_to('Brewery', beers_path(order:"brewery"), class:'btn btn-default') %></th>
+        <th></th>
+        <th></th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+      </thead>
+      <tbody>
+      <% @beers.each do |beer| %>
+          <tr>
+            <td><%= link_to beer.name, beer %></td>
+            <td><%= link_to beer.style.name, beer.style %></td>
+            <td><%= link_to beer.brewery.name, beer.brewery %></td>
+            <td><%= link_to('Edit', edit_beer_path(beer), class:'btn btn-default') if current_user %></td>
+            <td><%= link_to('Destroy', beer, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger') if current_user %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% end %>
 
 <br>
-
-<%= link_to 'New Beer', new_beer_path,class:'btn btn-primary' if current_user %>
-
+<%= link_to('New Beer', new_beer_path, class: 'btn btn-primary') if current_user %>
+<br>
